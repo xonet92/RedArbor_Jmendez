@@ -198,6 +198,7 @@
     <Content Include="App_Data\RedArborDB_log.ldf">
       <DependentUpon>RedArborDB.mdf</DependentUpon>
     </Content>
+    <Content Include="Documentation\ReadMe.txt" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -217,6 +218,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Documentation\RedArbor.postman_collection.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -229,9 +231,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Documentation\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\RedArbor_Jmendez_DAL\RedArbor_Jmendez_DAL.csproj">
       <Project>{CD28B7D4-9040-4735-ABB6-48D43D417416}</Project>

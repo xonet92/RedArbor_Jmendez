@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "8b99c98f-030a-44f8-bd42-f93530002bc8",
+		"name": "RedArbor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6924632"
+	},
+	"item": [
+		{
+			"name": "GetTokenUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "api_user",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost:44329/GetToken",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"GetToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetEmployee",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "bBYif6EfiookRKIAKBuIoI2LDiYbs31OUpSv_iQNBVVge5cCkOsjtLqONaLxGlA4LhF5s6KPEscFp49DE9VqOr7mZTjWhtVou96-G2TS1zgtJnKpc7FW8V3O_ZYbo0dwviWYh97NaJ0h1OAYgIzVMHUQ90U9cBvLzg7PTVFuAh5YrYfzjR-CwqMsKSAK6tJfN8I1L5XySxSnNvs7QF6Ugx0hYYtvwjG9_9Kr0TYojO006P9nDEHkDnAk7AEPcK384fQ9wY3LYMKC3FXuj9CJeP2_aA1Nh0PdWhv4Sh84MCI",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44329/Employee/GetEmployee?id=7",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"Employee",
+						"GetEmployee"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllEmployees",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "bBYif6EfiookRKIAKBuIoI2LDiYbs31OUpSv_iQNBVVge5cCkOsjtLqONaLxGlA4LhF5s6KPEscFp49DE9VqOr7mZTjWhtVou96-G2TS1zgtJnKpc7FW8V3O_ZYbo0dwviWYh97NaJ0h1OAYgIzVMHUQ90U9cBvLzg7PTVFuAh5YrYfzjR-CwqMsKSAK6tJfN8I1L5XySxSnNvs7QF6Ugx0hYYtvwjG9_9Kr0TYojO006P9nDEHkDnAk7AEPcK384fQ9wY3LYMKC3FXuj9CJeP2_aA1Nh0PdWhv4Sh84MCI",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "https://localhost:44329/Employee/GetAllEmployees",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"Employee",
+						"GetAllEmployees"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddEmployee",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "bBYif6EfiookRKIAKBuIoI2LDiYbs31OUpSv_iQNBVVge5cCkOsjtLqONaLxGlA4LhF5s6KPEscFp49DE9VqOr7mZTjWhtVou96-G2TS1zgtJnKpc7FW8V3O_ZYbo0dwviWYh97NaJ0h1OAYgIzVMHUQ90U9cBvLzg7PTVFuAh5YrYfzjR-CwqMsKSAK6tJfN8I1L5XySxSnNvs7QF6Ugx0hYYtvwjG9_9Kr0TYojO006P9nDEHkDnAk7AEPcK384fQ9wY3LYMKC3FXuj9CJeP2_aA1Nh0PdWhv4Sh84MCI",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"CompanyId\": 1,\r\n\"CreatedOn\": \"2002-01-1\",\r\n\"DeletedOn\": null,\r\n\"Email\": \"jmendez@redarbor.com\",\r\n\"Fax\": \"000.000.000\",\r\n\"Name\": \"Juan Méndez V2\",\r\n\"Lastlogin\": null,\r\n\"Password\": \"123456789\",\r\n\"PortalId\": 1,\r\n\"RoleId\": 1,\r\n\"StatusId\": 1,\r\n\"Telephone\": \"000.000.000\",\r\n\"UpdatedOn\": null,\r\n\"Username\": \"pruebaV2\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44329/Employee/AddEmployee",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"Employee",
+						"AddEmployee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateEmployee",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "KEErRcfv0TjYMcUYqGv2uMz5RMdBjogGw6t7q3cWCwhWaTKRkd1iERWsbm-00SrZMn_Jw6RFQE-bBuWFxNbpo9zWYP2_lRXGSIQwyvJXamvGbQjoqBJ67w5li5zCLS-8hUJLZwVYpVzDLAmEBTvtx74AKhwFSilJ_ffMApu9YFg5dE4xuxr1O9etABx2IWbjmXkJKRdsamvXH7h6b8qEjMbnfC5wbPRFuySaGaQimElT1_I4MgcnJoMe5yZibXIyH6coPdVz1VPnli-HEQZxFDa44QHpfrxojmt77-24oB0",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"Id\": 1,\r\n        \"CompanyId\": 2,\r\n        \"CreatedOn\": \"2022-09-28T19:07:03.26\",\r\n        \"DeleteOn\": null,\r\n        \"Email\": \"jmendez@redarbor.com\",\r\n        \"Fax\": \"000.000.000\",\r\n        \"Name\": \"Juan Méndez\",\r\n        \"Lastlogin\": null,\r\n        \"Password\": \"APrEAfvHbwGhKUZ87bGccGeKTnXLfy9yuubWwfrdWpecgmQA9Wefa3SmufMFRZLu9g==\",\r\n        \"PortalId\": 1,\r\n        \"RoleId\": 1,\r\n        \"StatusId\": 1,\r\n        \"Telephone\": \"000.000.000\",\r\n        \"UpdateOn\": null,\r\n        \"Username\": \"jmendezTest\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44329/Employee/UpdateEmployee",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"Employee",
+						"UpdateEmployee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteEmployee",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "lh-U3CyJ83GvUrhXljkw8NFHt7vrtqUc5XP1kxvPlzjSbAnUrV0r8OpdexX92bbsKVATIMNkM8jOzblL3tQKYf7s9b3VqFAGkngmFXvrZLvKt2Y9uLUlO0XKti0AO67jCh8mCw53x4k2BhRPQZNk9ZNSJfhhnQ2yk2mYS_oTahR6XnCzvhzhSsW81Vzm_WU1bVP-UPoP2JB69HLzvAMN4--zce4YR3istae-XRWNSiHTUB_aiRtq6iKuF2UVAkSyRYrPEHidb9eVMTu2guENM1MDrhzJGsW0Re0TCxgvw0Q",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:44329/Employee/DeleteEmployee?Id=1",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"Employee",
+						"DeleteEmployee"
+					],
+					"query": [
+						{
+							"key": "Id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetLogs",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "tokenType",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessToken",
+							"value": "6n7NGZ16L9S82aJ51RkOoPJNUMQIElDC_HgJjD2ghwXEiBUqaR38QcJolT_KXWOXUxbpbkvqSFAkZO2zsKQ246pXRtLHMoFsKdTNs6l5mCMEt_mABZOsKiWMXgSK-rzWDLTME6zboeuLuBfNHySo2HBEOwlSkpbI9Qtjkq22sqe97h2zQQA8EZPrhrjhrn2nPdzB0mOM5D8esWWfwBqtNOzkzKxbO6EZ0aOT_sEwdzhFVleqD-S9Jhh1gE3oBrg4705Jm1A-Bt5SCbnFHxnlD7Qd9trJMAegEvv03Ie_mEA",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"Controller\": \"Employee\",\r\n\"Method\": \"AddEmployee\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44329/LogApi/GetLogs",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44329",
+					"path": [
+						"LogApi",
+						"GetLogs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
