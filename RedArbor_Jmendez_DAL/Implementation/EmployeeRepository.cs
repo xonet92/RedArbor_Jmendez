@@ -20,92 +20,37 @@ namespace RedArbor_Jmendez_DAL.Implementation
     {
         EFDbContext _context = new EFDbContext();
         IDbConnection db = new SqlConnection(ConfigurationManager.ConnectionStrings["Context"].ConnectionString);
-        public ResponseDAO AddEmployee(EmployeeDAO employee)
+        public EmployeeDAO AddEmployee(EmployeeDAO employee)
         {
             try
             {
-                if (employee == null)
-                {
-                    return new ResponseDAO((int)HttpStatusCode.BadRequest, "Parameter is null", null);
-                }
-                string checkEmp = CheckDataEmployee(employee);
-                if (!string.IsNullOrEmpty(checkEmp))
-                {
-                    return new ResponseDAO((int)HttpStatusCode.BadRequest, checkEmp, null);
-                }
-                EmployeeDAO employeeDAO = GetRepEmployee(employee.Id, employee.Username);
-                if (employeeDAO != null)
-                {
-                    return new ResponseDAO((int)HttpStatusCode.BadRequest, "Employee is exist", employeeDAO);
-                }
                 employee.Password = Crypto.HashPassword(employee.Password);
                 if (employee.CreatedOn == null)
                 {
                     employee.CreatedOn = DateTime.Now;
                 }
-                _context.Employees.Add(employee);
+                _context.Entry(employee).State = EntityState.Added;
                 _context.SaveChanges();
-                return new ResponseDAO((int)HttpStatusCode.OK, "Success", employee);
+                return employee;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return new ResponseDAO((int)HttpStatusCode.BadRequest, e.Message, null); ;
+                return null;
             }
         }
 
-        public ResponseDAO UpdateEmployee(EmployeeDAO employee)
-        {
-            try
-            {
-                if (employee == null)
-                {
-                    return new ResponseDAO((int)HttpStatusCode.BadRequest, "Parameter is null", null);
-                }
-                EmployeeDAO employeeDAO = GetRepEmployee(employee.Id);
-                if (employeeDAO == null)
-                {
-                    return new ResponseDAO((int)HttpStatusCode.BadRequest, string.Format("The employee with id {0} not exist in the system", employee.Id), null);
-                }
-                else
-                {
-                    string checkEmp = CheckDataEmployee(employee);
-                    if (!string.IsNullOrEmpty(checkEmp))
-                    {
-                        return new ResponseDAO((int)HttpStatusCode.BadRequest, checkEmp, null);
-                    }
-                    employee.Password = Crypto.HashPassword(employee.Password);
-                    employee.UpdateOn = DateTime.Now;
-                    _context.Entry(employee).State = EntityState.Modified;
-                    _context.SaveChanges();
-                }
-                return new ResponseDAO((int)HttpStatusCode.OK, "Success", employee);
-            }
-            catch (Exception e)
-            {
-                return new ResponseDAO((int)HttpStatusCode.BadRequest, e.Message, null); ;
-            }
+        public void UpdateEmployee(EmployeeDAO employee)
+        {                     
+            employee.Password = Crypto.HashPassword(employee.Password);
+            employee.UpdateOn = DateTime.Now;
+            _context.Entry(employee).State = EntityState.Modified;
+            _context.SaveChanges();
         }
 
-        public ResponseDAO DeleteEmployee(int id)
-        {
-            try
-            {
-                EmployeeDAO employeeDAO = GetRepEmployee(id);
-                if (employeeDAO == null)
-                {
-                    return new ResponseDAO((int)HttpStatusCode.BadRequest, string.Format("The employee with id {0} not exist in the system", id), null);
-                }
-                else
-                {
-                    _context.Entry(employeeDAO).State = EntityState.Deleted;
-                    _context.SaveChanges();
-                }
-                return new ResponseDAO((int)HttpStatusCode.OK, "Success", null);
-            }
-            catch (Exception e)
-            {
-                return new ResponseDAO((int)HttpStatusCode.BadRequest, e.ToString(), null);
-            }
+        public void DeleteEmployee(EmployeeDAO employee)
+        {                
+            _context.Entry(employee).State = EntityState.Deleted;
+            _context.SaveChanges();            
         }
 
         public IEnumerable<EmployeeDAO> GetAllEmployees()
@@ -125,28 +70,8 @@ namespace RedArbor_Jmendez_DAL.Implementation
                 return null;
             }
         }
-
-        public ResponseDAO GetEmployee(int id)
-        {
-            try
-            {
-                EmployeeDAO employeeDAO = GetRepEmployee(id);
-                if (employeeDAO == null)
-                {
-                    return new ResponseDAO((int)HttpStatusCode.OK, string.Format("The employee with id {0} not exist in the system", id), null);
-                }
-                else
-                {
-                    return new ResponseDAO((int)HttpStatusCode.OK, "Succes", employeeDAO);
-                }
-            }
-            catch (Exception e)
-            {
-                return new ResponseDAO((int)HttpStatusCode.BadRequest, e.Message, null);
-            }
-        }
-
-        private EmployeeDAO GetRepEmployee(int Id, string username = "")
+     
+        public EmployeeDAO GetEmployee(int Id)
         {
             try
             {
@@ -154,8 +79,7 @@ namespace RedArbor_Jmendez_DAL.Implementation
                 {
                     db.Open();
                 }
-                EmployeeDAO employeeDAO = string.IsNullOrEmpty(username) ? db.QueryFirst<EmployeeDAO>("select * From Employees where Id = @Id", new { Id = Id })
-                                          : db.QueryFirst<EmployeeDAO>("select * From Employees where Id = @Id or Username = @Username", new { Id = Id, Username = username });
+                EmployeeDAO employeeDAO =  db.QueryFirst<EmployeeDAO>("select * From Employees where Id = @Id", new { Id = Id });
                 db.Close();
                 return employeeDAO;
             }
@@ -163,39 +87,6 @@ namespace RedArbor_Jmendez_DAL.Implementation
             {
                 return null;
             }
-        }
-
-        private string CheckDataEmployee(EmployeeDAO employee)
-        {
-            if (employee.CompanyId == 0)
-            {
-                return "The value Company Id cannot be 0 and must be numeric";
-            }
-            if (string.IsNullOrEmpty(employee.Email))
-            {
-                return "The value email cannot be empty";
-            }
-            if (string.IsNullOrEmpty(employee.Password))
-            {
-                return "The value Password cannot be empty";
-            }
-            if(employee.PortalId == 0)
-            {
-                return "The value Portal Id cannot be 0 and must be numeric";
-            }
-            if(employee.RoleId == 0)
-            {
-                return "The value Role Id cannot be 0 and must be numeric";
-            }
-            if(employee.StatusId == 0)
-            {
-                return "The value Status Id cannot be 0 and must be numeric";
-            }
-            if (string.IsNullOrEmpty(employee.Username))
-            {
-                return "The value Username cannot be empty";
-            }
-            return string.Empty;
         }
     }
 }

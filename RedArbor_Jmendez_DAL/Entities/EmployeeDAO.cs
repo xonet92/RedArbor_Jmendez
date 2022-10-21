@@ -13,29 +13,29 @@ namespace RedArbor_Jmendez_DAL.Entities
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "CompanyId is required")]
         public int CompanyId { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? DeleteOn { get; set; }
-        [Required, StringLength(255)]
+        [Required(ErrorMessage = "Email is required"), StringLength(255)]
         public string Email { get; set; }
         [StringLength(255)]
         public string Fax { get; set; }
         [StringLength(255)]
         public string Name { get; set; }
         public DateTime? Lastlogin { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
-        [Required]
+        [Required(ErrorMessage = "PortalId is required")]
         public int PortalId { get; set; }
-        [Required]
+        [Required(ErrorMessage = "RoleId is required")]
         public int RoleId { get; set; }
-        [Required]
+        [Required(ErrorMessage ="StatusId is required")]
         public int StatusId { get; set; }
         [StringLength(255)]
         public string Telephone { get; set; }
         public DateTime? UpdateOn { get; set; }
-        [Required, StringLength(255)]
+        [Required(ErrorMessage ="Username is required"), StringLength(255)]
         public string Username { get; set; }
     }
 }

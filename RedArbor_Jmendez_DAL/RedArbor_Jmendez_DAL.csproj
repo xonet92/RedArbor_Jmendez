@@ -132,7 +132,6 @@
     <Compile Include="Context\EFDbContext.cs" />
     <Compile Include="Entities\EmployeeDAO.cs" />
     <Compile Include="Entities\LogApiCallsDAO.cs" />
-    <Compile Include="Entities\ResponseDAO.cs" />
     <Compile Include="Implementation\EmployeeRepository.cs" />
     <Compile Include="Implementation\LogApiCallsRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />

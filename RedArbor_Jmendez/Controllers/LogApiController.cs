@@ -10,6 +10,7 @@ using System.Web.Http;
 
 namespace RedArbor_Jmendez.Controllers
 {
+    [Authorize(Roles = "API")]
     public class LogApiController : ApiController
     {
         private ILogApiCallsRepository _repLogApiCalls;
@@ -19,18 +20,24 @@ namespace RedArbor_Jmendez.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "API")]
         [Route("LogApi/GetLogs")]
-        public IEnumerable<LogApiCallsDAO> GetLogs([FromBody] LogApi log)
+        public IHttpActionResult GetLogs([FromBody] LogApi log)
         {
-            if(log == null)
+            try
             {
-                return _repLogApiCalls.GetLogApiCalls();
+                if (log == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(_repLogApiCalls.GetLogApiCalls(log.CreatedOnEnd, log.CreatedOnStart, log.Controller, log.Method, log.CreateUser, log.Parameters, log.Response));
+                }
             }
-            else
+            catch(Exception e)
             {
-                return _repLogApiCalls.GetLogApiCalls(log.CreatedOnEnd,log.CreatedOnStart,log.Controller,log.Method,log.CreateUser,log.Parameters,log.Response);
-            }           
+                return InternalServerError(e);
+            }                  
         }
     }
 }

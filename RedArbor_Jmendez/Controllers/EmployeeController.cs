@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RedArbor_Jmendez.Models;
 using RedArbor_Jmendez_DAL.Entities;
@@ -7,107 +8,162 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
+
 
 namespace RedArbor_Jmendez.Controllers
 {
+    [Authorize(Roles = "API")]
     public class EmployeeController : ApiController
     {
         private IEmployeeRepository _repEmployee;
         private ILogApiCallsRepository _repLogApiCalls;
-        private ResponseDAO _response;
         public EmployeeController(IEmployeeRepository repEmployee, ILogApiCallsRepository repLogApiCalls)
         {
             _repEmployee = repEmployee;
             _repLogApiCalls = repLogApiCalls;
-            _response = new ResponseDAO();
         }
 
         [HttpGet]
-        [Authorize(Roles = "API")]
         [Route("Employee/GetEmployee")]
-        public ResponseDAO GetEmployee(int Id)
+        public IHttpActionResult GetEmployee(int id)
         {
-            return _repEmployee.GetEmployee(Id);
+            try
+            {
+                if(id <= 0)
+                {
+                    return BadRequest();
+                }
+                EmployeeDAO emp = _repEmployee.GetEmployee(id);
+                if(emp == null)
+                {
+                    return NotFound();
+                }
+                return Ok(emp);
+            }
+            catch (Exception e)
+            {
+                AddLog("GetEmployee", string.Format("id = {0}", id), e.ToString());
+                return InternalServerError(e);
+            }
         }
 
         [HttpGet]
-        [Authorize(Roles = "API")]
         [Route("Employee/GetAllEmployees")]
-        public IEnumerable<EmployeeDAO> GetAllEmployees()
+        public IHttpActionResult GetAllEmployees()
         {
-            return _repEmployee.GetAllEmployees();
+            try
+            {
+                return Ok(_repEmployee.GetAllEmployees());
+            }
+            catch(Exception e)
+            {
+                AddLog("GetAllEmployees", string.Empty, e.ToString());
+                return InternalServerError(e);
+            }
         }
 
         [HttpPost]
-        [Authorize(Roles = "API")]
         [Route("Employee/AddEmployee")]
-        public ResponseDAO AddEmployee([FromBody] Employee employee)
+        public IHttpActionResult AddEmployee([FromBody] Employee employee)
         {           
             try
             {
+                if(employee == null)
+                {
+                    return BadRequest();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<Employee, EmployeeDAO>());
                 var mapper = new Mapper(config);
-                _response = _repEmployee.AddEmployee(mapper.Map<EmployeeDAO>(employee));
-                AddLog("AddEmployee", JsonConvert.SerializeObject(employee), _response);
+                EmployeeDAO emp = _repEmployee.AddEmployee(mapper.Map<EmployeeDAO>(employee));
+                if(emp!= null && emp.Id > 0)
+                {
+                    AddLog("AddEmployee", JsonConvert.SerializeObject(employee), string.Format("Status: {0}, Response: {1}",HttpStatusCode.OK, JsonConvert.SerializeObject(emp)));
+                    return Ok(emp);
+                }
+                return BadRequest(); 
             }
             catch(Exception e)
             {
-                _response.Code = (int)HttpStatusCode.BadRequest;
-                _response.Message = e.Message;
-                _response.EmployeeDAO = null;
+                AddLog("AddEmployee", JsonConvert.SerializeObject(employee), e.ToString());
+                return InternalServerError(e);
             }          
-            return _response;
         }
 
         [HttpPut]
-        [Authorize(Roles = "API")]
         [Route("Employee/UpdateEmployee")]
-        public ResponseDAO UpdateEmployee([FromBody] Employee employee)
+        public IHttpActionResult UpdateEmployee(int id,[FromBody] Employee employee)
         {
             try
             {
+                if(employee == null || id != employee.Id)
+                {
+                    return BadRequest();
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                EmployeeDAO emp = _repEmployee.GetEmployee(id);
+                if(emp == null)
+                {
+                    return NotFound();
+                }
                 var config = new MapperConfiguration(cfg => cfg.CreateMap<Employee, EmployeeDAO>());
                 var mapper = new Mapper(config);
-                _response = _repEmployee.UpdateEmployee(mapper.Map<EmployeeDAO>(employee));
-                AddLog("UpdateEmployee", JsonConvert.SerializeObject(employee), _response);
+                _repEmployee.UpdateEmployee(mapper.Map<EmployeeDAO>(employee));
+                AddLog("UpdateEmployee", string.Format("id = {0}, Employee = {1}",id,JsonConvert.SerializeObject(employee)), HttpStatusCode.OK.ToString());
+                return Ok();
             }
             catch(Exception e)
             {
-                _response.Code = (int)HttpStatusCode.BadRequest;
-                _response.Message = e.Message;
-                _response.EmployeeDAO = null;
+                AddLog("UpdateEmployee", string.Format("id = {0}, Employee = {1}", id, JsonConvert.SerializeObject(employee)), e.ToString());
+                return InternalServerError(e);
             }
-            return _response;
         }
 
         [HttpDelete]
-        [Authorize(Roles = "API")]
         [Route("Employee/DeleteEmployee")]
-        public ResponseDAO DeleteEmployee(int Id)
+        public IHttpActionResult DeleteEmployee(int id)
         {
             try
             {
-                _response = _repEmployee.DeleteEmployee(Id);
-                AddLog("DeleteEmployee", string.Format("Id = {0}", Id), _response);
+                if(id <= 0)
+                {
+                    return BadRequest();
+                }
+                else
+                {
+                    EmployeeDAO employee = _repEmployee.GetEmployee(id);
+                    if(employee == null)
+                    {
+                        return NotFound();
+                    }
+                    _repEmployee.DeleteEmployee(employee);
+                    AddLog("DeleteEmployee", string.Format("id = {0}", id), HttpStatusCode.OK.ToString());
+                    return Ok();
+                }
             }
             catch(Exception e)
             {
-                _response.Code = (int)HttpStatusCode.BadRequest;
-                _response.Message = e.Message;
-                _response.EmployeeDAO = null;
+                AddLog("DeleteEmployee", string.Format("id = {0}", id), e.ToString());
+                return InternalServerError(e);
             }
-            return _response;
         }
 
-        private void AddLog(string method, string parameters, ResponseDAO response)
+        private void AddLog(string method, string parameters, string response)
         {          
             LogApiCallsDAO log = new LogApiCallsDAO()
             {
                 Controller = "Employee",
                 Method = method, 
                 Parameters = parameters,
-                Response = JsonConvert.SerializeObject(response),
+                Response = response,
                 CreatedOn = DateTime.Now,
                 CreateUser = ConfigurationManager.AppSettings["APIUSER"]
             };

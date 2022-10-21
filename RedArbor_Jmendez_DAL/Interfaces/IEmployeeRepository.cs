@@ -10,9 +10,9 @@ namespace RedArbor_Jmendez_DAL.Interfaces
     public interface IEmployeeRepository
     {
         IEnumerable<EmployeeDAO> GetAllEmployees();
-        ResponseDAO GetEmployee(int id);
-        ResponseDAO AddEmployee(EmployeeDAO employee);
-        ResponseDAO UpdateEmployee(EmployeeDAO employee);
-        ResponseDAO DeleteEmployee(int id);
+        EmployeeDAO GetEmployee(int id);
+        EmployeeDAO AddEmployee(EmployeeDAO employee);
+        void UpdateEmployee(EmployeeDAO employee);
+        void DeleteEmployee(EmployeeDAO employee);
     }
 }

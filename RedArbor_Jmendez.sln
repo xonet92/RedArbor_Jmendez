@@ -7,11 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedArbor_Jmendez", "RedArbo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedArbor_Jmendez_DAL", "RedArbor_Jmendez_DAL\RedArbor_Jmendez_DAL.csproj", "{CD28B7D4-9040-4735-ABB6-48D43D417416}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{08F8FFDE-F989-406B-9134-262FC7C44DA4}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\..\Downloads\DOCUMENTACION API REDARBOR.pdf = ..\..\..\Downloads\DOCUMENTACION API REDARBOR.pdf
-		..\..\..\Desktop\RedArbor.postman_collection.json = ..\..\..\Desktop\RedArbor.postman_collection.json
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedArbor_Jmendez_Test", "RedArbor_Jmendez_Test\RedArbor_Jmendez_Test.csproj", "{83BAE7B0-C3CD-4DE1-80F4-926DC296DBA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +23,10 @@ Global
 		{CD28B7D4-9040-4735-ABB6-48D43D417416}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD28B7D4-9040-4735-ABB6-48D43D417416}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD28B7D4-9040-4735-ABB6-48D43D417416}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83BAE7B0-C3CD-4DE1-80F4-926DC296DBA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83BAE7B0-C3CD-4DE1-80F4-926DC296DBA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83BAE7B0-C3CD-4DE1-80F4-926DC296DBA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83BAE7B0-C3CD-4DE1-80F4-926DC296DBA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
